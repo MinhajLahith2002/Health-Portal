@@ -1,0 +1,8 @@
+"use client";
+
+import { Area, Bar, CartesianGrid, ComposedChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import type { HealthcarePatientGrowthPoint } from "@/types/healthcareAnalytics";
+
+export default function PatientGrowthChart({ data }: { data: HealthcarePatientGrowthPoint[] }) {
+  return <div className="h-72 w-full"><ResponsiveContainer width="100%" height="100%"><ComposedChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}><defs><linearGradient id="healthcare-total" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity={0.2} /><stop offset="100%" stopColor="#2563eb" stopOpacity={0.02} /></linearGradient></defs><CartesianGrid stroke="#e2e8f0" strokeDasharray="4 4" vertical={false} /><XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} /><YAxis yAxisId="total" tickLine={false} axisLine={false} tick={{ fill: "#2563eb", fontSize: 11 }} width={42} /><YAxis yAxisId="new" orientation="right" tickLine={false} axisLine={false} tick={{ fill: "#0d9488", fontSize: 11 }} width={34} /><Tooltip contentStyle={{ border: "1px solid #e2e8f0", borderRadius: 10, fontSize: 12 }} labelStyle={{ color: "#0f172a", fontWeight: 600 }} /><Legend iconType="circle" wrapperStyle={{ fontSize: 12, paddingTop: 10 }} /><Area yAxisId="total" type="monotone" dataKey="totalPatients" name="Total Patients" stroke="#2563eb" strokeWidth={2.5} fill="url(#healthcare-total)" /><Bar yAxisId="new" dataKey="newPatients" name="New Patients" fill="#14b8a6" fillOpacity={0.82} radius={[4, 4, 0, 0]} barSize={18} /></ComposedChart></ResponsiveContainer></div>;
+}

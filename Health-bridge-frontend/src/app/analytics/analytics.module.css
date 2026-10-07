@@ -1,0 +1,380 @@
+/* Every rule is anchored to the Analytics layout, including chart overrides. */
+.analytics {
+  --analytics-border: #e1e8f2;
+  --analytics-shadow: 0 2px 4px #1e3a5f03, 0 8px 28px #1e3a5f05;
+  color: #172b4d;
+  -webkit-font-smoothing: antialiased;
+  container-type: inline-size;
+}
+
+.analytics main {
+  background: radial-gradient(ellipse at 12% 0%, #eaf2ff 0%, transparent 48%), #f5f8fc;
+  padding-block: 32px 48px;
+}
+
+.analytics main > div > header {
+  gap: 24px;
+  padding-bottom: 28px;
+  border-color: #dce5f1;
+}
+
+.analytics h1 {
+  color: #142b4e;
+  font-size: clamp(1.65rem, 2.3vw, 2.125rem);
+  line-height: 1.22;
+  letter-spacing: -0.04em;
+}
+
+.analytics header p {
+  line-height: 1.65;
+}
+
+.analytics header :global(.text-slate-400),
+.analytics :global(.text-slate-400) {
+  color: #687b94;
+}
+
+.analytics header [aria-label="Time period"] {
+  padding: 5px;
+  gap: 3px;
+  border-color: #dce5f1;
+  border-radius: 14px;
+  background: #eaf0f8;
+  box-shadow: inset 0 1px 3px #1e3a5f04;
+}
+
+.analytics header [aria-label="Time period"] button {
+  min-height: 36px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.analytics header [aria-label="Time period"] button:global(.bg-white) {
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 3px 8px #2563eb26, inset 0 1px 0 #ffffff26;
+}
+
+/* Navigation tiles act as a quick-access launcher, distinct from metric cards. */
+.analytics nav[aria-label="Analytics navigation"] {
+  margin-top: 24px;
+}
+
+/* Whitespace separates navigation from the statistics section. */
+.analytics nav[aria-label="Analytics navigation"] + div {
+  margin-top: 32px;
+}
+
+.analytics nav[aria-label="Analytics navigation"] > div {
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.analytics nav[aria-label="Analytics navigation"] a {
+  --category: #2563eb;
+  --category-tint: #eff6ff;
+  height: auto;
+  min-height: 112px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--category) 18%, #e1e8f2);
+  border-left: 4px solid var(--category);
+  border-radius: 30px;
+  background: linear-gradient(115deg, color-mix(in srgb, var(--category-tint) 62%, white), #fff 78%);
+  box-shadow: 0 5px 18px color-mix(in srgb, var(--category) 8%, transparent), 0 1px 2px #1e3a5f08;
+}
+
+.analytics nav a[href="/analytics/healthcare"] { --category: #059669; --category-tint: #effbf6; }
+.analytics nav a[href="/analytics/financial"] { --category: #7c3aed; --category-tint: #f6f2ff; }
+.analytics nav a[href="/analytics/operational"] { --category: #d97706; --category-tint: #fffaef; }
+.analytics nav a[href="/analytics/population-health"] { --category: #e0527a; --category-tint: #fff3f6; }
+.analytics nav a[href="/analytics/reports"] { --category: #0891b2; --category-tint: #eefbfe; }
+
+.analytics nav[aria-label="Analytics navigation"] a[aria-current="page"] {
+  border-color: #a8c5fa;
+  border-left-color: #2563eb;
+  background: linear-gradient(115deg, #eff6ff, #f8fbff);
+  box-shadow: 0 0 0 1px #2563eb12, 0 8px 22px #2563eb14;
+}
+
+.analytics nav a > div {
+  gap: 14px;
+}
+
+.analytics nav a > div > div:first-child {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  color: var(--category);
+  background: var(--category-tint);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--category) 14%, transparent), 0 3px 8px color-mix(in srgb, var(--category) 10%, transparent);
+}
+
+.analytics nav a[aria-current="page"] > div > div:first-child {
+  color: white;
+  background: #2563eb;
+  box-shadow: 0 4px 10px #2563eb25;
+}
+
+.analytics nav a h2 {
+  overflow: visible;
+  white-space: normal;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+.analytics nav a h2 + span {
+  padding: 3px 6px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.analytics nav a h2:first-child {
+  min-width: 0;
+}
+
+.analytics nav a p {
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.analytics nav a > div > span:last-child {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--category) 16%, transparent);
+  border-radius: 999px;
+  font-size: 18px;
+  color: var(--category);
+  background: color-mix(in srgb, var(--category) 10%, white);
+  box-shadow: inset 0 1px 0 #ffffffaa;
+}
+
+/* Quieter surfaces distinguish metrics and chart panels from navigation. */
+.analytics main section,
+.analytics main article,
+.analytics main > div > div:global(.rounded-2xl) {
+  min-width: 0;
+  border-color: var(--analytics-border);
+  border-radius: 18px;
+  box-shadow: var(--analytics-shadow);
+}
+
+.analytics main > div > div[role="alert"] {
+  border-color: #fecdd3;
+}
+
+.analytics main section,
+.analytics main > div > div:global(.rounded-2xl):not([role]) {
+  padding: 24px;
+}
+
+.analytics main section > div:first-child:global(.mb-4),
+.analytics main > div > div:global(.rounded-2xl) > div:global(.mb-4) {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.analytics main section h2,
+.analytics main > div > div:global(.rounded-2xl) h2 {
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.5;
+  color: #203655;
+}
+
+.analytics main section h2 + p {
+  margin-top: 5px;
+  line-height: 1.6;
+}
+
+.analytics main article {
+  padding: 20px;
+  background: linear-gradient(145deg, #fff 65%, #f9fbff);
+}
+
+.analytics main article > div:first-child > p {
+  padding-top: 3px;
+  color: #526681;
+  font-weight: 550;
+  line-height: 1.5;
+}
+
+.analytics main article > div:first-child > span {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+.analytics main article > p:global(.text-2xl) {
+  margin-top: 14px;
+  color: #142b4e;
+  font-size: clamp(1.65rem, 2.2vw, 2rem);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics main :global(.grid) > * {
+  min-width: 0;
+}
+
+.analytics table {
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics thead {
+  background: #f5f8fc;
+  color: #61738d;
+}
+
+.analytics th {
+  padding-block: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.analytics td {
+  padding-block: 16px;
+  font-size: 12px;
+}
+
+.analytics th:first-child,
+.analytics td:first-child {
+  padding-left: 14px;
+}
+
+.analytics tbody tr {
+  transition: background-color 160ms ease;
+}
+
+.analytics :global(.recharts-cartesian-grid) line {
+  stroke: #e9eef6;
+}
+
+.analytics :global(.recharts-cartesian-axis-tick) text {
+  fill: #71829a;
+  font-size: 11px;
+}
+
+.analytics :global(.recharts-default-tooltip) {
+  border-color: var(--analytics-border) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  box-shadow: 0 8px 30px #19345b14;
+  line-height: 1.65;
+}
+
+.analytics :global(.recharts-legend-wrapper) {
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.analytics button,
+.analytics select,
+.analytics input {
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.analytics button:focus-visible,
+.analytics a:focus-visible,
+.analytics select:focus-visible,
+.analytics input:focus-visible,
+.analytics :global(.recharts-wrapper):focus-visible {
+  outline: 3px solid #93b8fa;
+  outline-offset: 3px;
+}
+
+.analytics button:global(.bg-blue-600) {
+  border-radius: 10px;
+  box-shadow: 0 3px 8px #2563eb1a;
+}
+
+@media (hover: hover) {
+  .analytics nav[aria-label="Analytics navigation"] a:hover {
+    border-color: color-mix(in srgb, var(--category) 35%, white);
+    border-left-color: var(--category);
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--category) 10%, transparent), 0 10px 26px color-mix(in srgb, var(--category) 18%, transparent), 0 2px 5px #1e3a5f0c;
+  }
+
+  .analytics nav[aria-label="Analytics navigation"] a:hover > div > div:first-child {
+    color: color-mix(in srgb, var(--category) 88%, #142b4e);
+    background: color-mix(in srgb, var(--category-tint) 58%, white);
+  }
+
+  .analytics nav[aria-label="Analytics navigation"] a:hover > div > span:last-child {
+    color: white;
+    background: var(--category);
+    border-color: var(--category);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--category) 24%, transparent);
+  }
+
+  .analytics tbody tr:hover {
+    background: #f6f9fe;
+  }
+
+  .analytics button:not(:disabled):hover {
+    box-shadow: 0 3px 8px #1e3a5f0d;
+  }
+}
+
+@container (min-width: 620px) {
+  .analytics nav[aria-label="Analytics navigation"] > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 1080px) {
+  .analytics nav[aria-label="Analytics navigation"] > div {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .analytics {
+    margin: -16px -24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .analytics main {
+    padding-block: 24px 32px;
+  }
+
+  .analytics main > div > header > div,
+  .analytics main > div > header > div > div {
+    min-width: 0;
+  }
+
+  .analytics main > div > header,
+  .analytics main > div > header > div:global(.flex) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .analytics main section,
+  .analytics main article,
+  .analytics main > div > div:global(.rounded-2xl):not([role]) {
+    padding: 18px;
+  }
+
+  .analytics nav[aria-label="Analytics navigation"] a {
+    min-height: 100px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .analytics *,
+  .analytics *::before,
+  .analytics *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

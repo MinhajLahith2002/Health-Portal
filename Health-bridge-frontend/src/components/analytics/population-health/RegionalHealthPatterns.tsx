@@ -1,0 +1,5 @@
+import type { RegionalHealthPoint } from "@/types/analytics";
+
+export default function RegionalHealthPatterns({ data }: { data: RegionalHealthPoint[] }) {
+  return <div className="overflow-x-auto"><table className="w-full min-w-[560px] text-left text-sm"><thead className="border-b border-slate-200 text-xs text-slate-400"><tr>{["Area", "Registered Patients", "High-Risk Rate", "Screening Rate"].map((heading) => <th key={heading} className="px-4 py-3 font-medium first:pl-0">{heading}</th>)}</tr></thead><tbody className="divide-y divide-slate-100">{data.map((row) => <tr key={row.region} className="text-slate-600"><td className="px-4 py-3.5 pl-0 font-semibold text-slate-800">{row.region}</td><td className="px-4 py-3.5">{row.registeredPatients.toLocaleString()}</td><td className="px-4 py-3.5"><div className="flex items-center gap-2"><div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-rose-400" style={{ width: `${row.highRiskRate * 10}%` }} /></div>{row.highRiskRate}%</div></td><td className="px-4 py-3.5 font-semibold text-teal-600">{row.screeningRate}%</td></tr>)}</tbody></table></div>;
+}

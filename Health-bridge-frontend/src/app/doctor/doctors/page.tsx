@@ -1,0 +1,21 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useCallback, useMemo, useState } from "react";
+import { Search, X, Mail, Phone, MapPin, Star } from "lucide-react";
+import DoctorCard from "@/features/doctor/components/DoctorCard";
+import LoadingState from "@/features/doctor/components/LoadingState";
+import PageHeader from "@/features/doctor/components/PageHeader";
+import StatusBadge from "@/features/doctor/components/StatusBadge";
+import { SPECIALIZATIONS } from "@/features/doctor/constants";
+import { useDoctorData } from "@/features/doctor/hooks/useDoctorData";
+import { getDoctors } from "@/features/doctor/services/doctorService";
+import type { Doctor } from "@/features/doctor/types";
+
+export default function DoctorDirectoryPage() {
+  const loader = useCallback(() => getDoctors(), []); const { data, loading, error } = useDoctorData(loader);
+  const [query, setQuery] = useState(""); const [specialization, setSpecialization] = useState(SPECIALIZATIONS[0]); const [selected, setSelected] = useState<Doctor | null>(null);
+  const doctors = useMemo(() => (data ?? []).filter((doctor) => (specialization === SPECIALIZATIONS[0] || doctor.specialization === specialization) && `${doctor.fullName} ${doctor.specialization}`.toLowerCase().includes(query.toLowerCase())), [data, query, specialization]);
+  return <><PageHeader eyebrow="Network" title="Doctor directory" description="Find and connect with verified specialists across HealthBridge." /><div className="mb-6 flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:flex-row"><label className="flex h-11 flex-1 items-center gap-2 rounded-md border border-slate-200 px-3"><Search className="h-4 w-4 text-slate-400" /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by name or specialty" className="w-full text-sm outline-none" /></label><select value={specialization} onChange={(e) => setSpecialization(e.target.value)} className="h-11 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-blue-600">{SPECIALIZATIONS.map((item) => <option key={item}>{item}</option>)}</select></div>{loading ? <LoadingState /> : error ? <p className="text-sm text-rose-600">{error}</p> : doctors.length ? <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">{doctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} onView={setSelected} />)}</div> : <div className="rounded-lg border border-dashed border-slate-300 p-12 text-center text-sm text-slate-500">No doctors match your filters.</div>}
+    {selected && <div className="fixed inset-0 z-[60] flex items-end justify-center bg-slate-950/40 p-0 sm:items-center sm:p-6" onMouseDown={() => setSelected(null)}><div role="dialog" aria-modal="true" aria-label={`${selected.fullName} details`} onMouseDown={(e) => e.stopPropagation()} className="w-full max-w-xl rounded-t-lg bg-white p-6 shadow-2xl sm:rounded-lg"><div className="flex justify-between"><div className="flex gap-4">{ }<img src={selected.profileImage} alt={selected.fullName} className="h-20 w-20 rounded-md object-cover" /><div><h2 className="text-xl font-bold">{selected.fullName}</h2><p className="text-sm font-medium text-blue-700">{selected.specialization}</p><p className="mt-2 flex items-center gap-1 text-xs text-slate-500"><Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />{selected.rating} patient rating</p></div></div><button aria-label="Close doctor details" onClick={() => setSelected(null)}><X className="h-5 w-5" /></button></div>{selected.bio && <p className="mt-5 text-sm leading-6 text-slate-600">{selected.bio}</p>}<div className="mt-5 grid gap-3 border-y border-slate-100 py-5 text-sm sm:grid-cols-2"><p className="flex items-center gap-2"><Mail className="h-4 w-4 text-slate-400" />{selected.email}</p><p className="flex items-center gap-2"><Phone className="h-4 w-4 text-slate-400" />{selected.phoneNumber}</p><p className="flex items-center gap-2 sm:col-span-2"><MapPin className="h-4 w-4 text-slate-400" />{selected.address}</p></div><div className="mt-5 flex items-center justify-between"><div><p className="text-xs text-slate-500">Qualifications</p><p className="text-sm font-semibold">{selected.qualifications.join(", ")}</p></div><StatusBadge status={selected.availableToday ? "Available" : "Unavailable"} /></div></div></div>}</>;
+}

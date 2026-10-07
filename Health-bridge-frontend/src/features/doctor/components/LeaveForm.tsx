@@ -1,0 +1,13 @@
+"use client";
+
+import { useState } from "react";
+import type { LeaveInput } from "../types";
+import { validateLeave } from "../validations";
+
+export default function LeaveForm({ onSubmit }: { onSubmit: (data: LeaveInput) => Promise<void> }) {
+  const [form, setForm] = useState<LeaveInput>({ leaveType: "Annual", startDate: "", endDate: "", reason: "" });
+  const [message, setMessage] = useState(""); const [saving, setSaving] = useState(false);
+  async function submit(event: React.FormEvent) { event.preventDefault(); const error = validateLeave(form); if (error) { setMessage(error); return; } setSaving(true); await onSubmit(form); setSaving(false); setMessage("Leave request submitted."); setForm({ leaveType: "Annual", startDate: "", endDate: "", reason: "" }); }
+  const control = "mt-1.5 h-11 w-full rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100";
+  return <form onSubmit={submit} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6"><h2 className="font-bold">Apply for leave</h2><p className="mt-1 text-xs text-slate-500">Requests are sent to administration for approval.</p>{message && <p className={`mt-4 rounded-md px-3 py-2 text-xs ${message.includes("submitted") ? "bg-blue-50 text-blue-700" : "bg-rose-50 text-rose-700"}`}>{message}</p>}<div className="mt-5 space-y-4"><label className="block text-xs font-semibold text-slate-600">Leave type<select className={control} value={form.leaveType} onChange={(e) => setForm({ ...form, leaveType: e.target.value as LeaveInput["leaveType"] })}><option>Annual</option><option>Sick</option><option>Emergency</option><option>Other</option></select></label><div className="grid grid-cols-2 gap-3"><label className="text-xs font-semibold text-slate-600">Start date<input type="date" className={control} value={form.startDate} onChange={(e) => setForm({ ...form, startDate: e.target.value })} /></label><label className="text-xs font-semibold text-slate-600">End date<input type="date" className={control} value={form.endDate} onChange={(e) => setForm({ ...form, endDate: e.target.value })} /></label></div><label className="block text-xs font-semibold text-slate-600">Reason<textarea rows={4} className="mt-1.5 w-full rounded-md border border-slate-200 p-3 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100" value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} placeholder="Briefly explain your request" /></label><button disabled={saving} className="h-11 w-full rounded-md bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60">{saving ? "Submitting..." : "Submit request"}</button></div></form>;
+}
